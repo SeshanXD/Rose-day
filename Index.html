@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Only For You ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#ff6f91,#4b0012);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+}
+
+/* Pages */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:opacity 1s ease,transform 1s ease;
+}
+.hidden{opacity:0;pointer-events:none;transform:scale(1.1);}
+
+/* Cards */
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:32px;
+  width:90%;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,0.45);
+  animation:fadeIn 1.5s ease;
+}
+
+h1{font-family:'Playfair Display',serif;font-size:2rem;}
+p{margin:18px 0;line-height:1.7;font-size:0.95rem;}
+
+button{
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  font-weight:600;
+  cursor:pointer;
+  background:linear-gradient(135deg,#ffd6e0,#fff);
+  color:#7b001c;
+}
+
+/* Envelope */
+.envelope{
+  width:260px;height:170px;
+  background:#fff;border-radius:14px;
+  position:relative;cursor:pointer;
+  animation:float 3s ease-in-out infinite;
+}
+.envelope::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,#ffccd5,#fff);
+  clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
+}
+.envelope span{
+  position:absolute;bottom:14px;width:100%;
+  text-align:center;font-weight:600;color:#7b001c;
+}
+
+/* Rose heartbeat */
+.rose{
+  font-size:4.2rem;
+  animation:heartbeat 2s infinite;
+}
+
+/* Effects */
+.heart,.star{
+  position:absolute;color:rgba(255,255,255,0.8);
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-10vh);opacity:1;}
+  100%{transform:translateY(110vh);opacity:0;}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
+}
+@keyframes heartbeat{
+  0%{transform:scale(1);}
+  25%{transform:scale(1.08);}
+  50%{transform:scale(1);}
+  75%{transform:scale(1.06);}
+  100%{transform:scale(1);}
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 0 -->
+<div class="page" id="page0">
+  <div class="card">
+    <h1>Only For You 💗</h1>
+    <p>This little world was created<br>for one heart alone.</p>
+    <button onclick="goEnvelope()">Enter ✨</button>
+  </div>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page hidden" id="page1">
+  <div class="envelope" onclick="openLetter()">
+    <span>Tap to Open 💌</span>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hidden" id="page2">
+  <div class="card">
+    <h1>My Love ❤️</h1>
+    <p id="typeText"></p>
+    <button onclick="showRose()">Continue 🌹</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hidden" id="page3">
+  <div class="card">
+    <h1>Happy Rose Day 🌹</h1>
+    <div class="rose">🌹</div>
+    <p id="wishText">
+      Like this rose,<br>
+      my love for you blooms endlessly 💖
+    </p>
+    <button onclick="makeWish()">Make a Wish 💫</button>
+    <p style="font-size:0.8rem;margin-top:14px;">
+      Forever yours,<br><b>Seshan ♡</b>
+    </p>
+  </div>
+</div>
+
+<script>
+const letter = `This isn’t just a letter…
+It’s my heart finding its way to you.
+
+In every moment,
+in every silence,
+it chooses you.
+
+— Seshan`;
+
+let i=0;
+
+function goEnvelope(){
+  page0.classList.add("hidden");
+  setTimeout(()=>page1.classList.remove("hidden"),600);
+}
+
+function openLetter(){
+  page1.classList.add("hidden");
+  setTimeout(()=>{
+    page2.classList.remove("hidden");
+    typeWriter();
+  },600);
+}
+
+function typeWriter(){
+  if(i < letter.length){
+    typeText.innerHTML += letter.charAt(i);
+    i++;
+    setTimeout(typeWriter,40);
+  }
+}
+
+function showRose(){
+  page2.classList.add("hidden");
+  setTimeout(()=>page3.classList.remove("hidden"),600);
+}
+
+function makeWish(){
+  wishText.innerHTML = "My wish already came true…<br><b>it’s you ✨</b>";
+}
+
+/* Hearts & stars */
+function drop(symbol,cls){
+  const el=document.createElement("div");
+  el.className=cls;
+  el.innerHTML=symbol;
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=Math.random()*18+12+"px";
+  el.style.animationDuration=Math.random()*3+4+"s";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),6000);
+}
+setInterval(()=>drop("❤","heart"),300);
+setInterval(()=>drop("✦","star"),700);
+</script>
+
+</body>
+</html>
